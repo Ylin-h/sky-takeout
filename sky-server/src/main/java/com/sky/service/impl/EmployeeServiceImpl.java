@@ -69,8 +69,7 @@ public class  EmployeeServiceImpl implements EmployeeService {
         //3、返回实体对象
         return employee;
     }
-
-
+    //员工新增
     public void add(EmployeeDTO employeeDTO) {
         Employee employee = new Employee();
 //        employee.setUsername(employeeDTO.getUsername());单个赋值
@@ -90,13 +89,45 @@ public class  EmployeeServiceImpl implements EmployeeService {
         employeeMapper.save(employee);
     }
 
-    @Override
+    //员工页面查询
     public PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO) {
         PageHelper.startPage(employeePageQueryDTO.getPage(), employeePageQueryDTO.getPageSize());
         Page<Employee> page = employeeMapper.pageQuery(employeePageQueryDTO);
         long total = page.getTotal();//总记录数
         List<Employee> list = page.getResult();//当前页数据
         return new PageResult(total,list);
+    }
+
+//员工停用启用
+    public void stopOrStart(Integer status, Long id) {
+        //单个赋值
+      //  Employee employee = new Employee();
+        //employee.setId(id);
+        //employee.setStatus(status);
+        //使用Bulider模式，设置属性值
+       Employee employee = Employee.builder().id(id).status(status).build();
+        employeeMapper.stopOrStart(employee);
+    }
+
+   //员工删除
+    public void delete(Long id) {
+        employeeMapper.delete(id);
+    }
+
+    //回显员工信息
+    public Employee getById(Long id) {
+        Employee employee = employeeMapper.getById(id);
+        employee.setPassword(null);//密码不返回给前端
+        return employee;
+    }
+
+    //修改员工信息
+    public void update(EmployeeDTO employeeDTO) {
+        Employee employee = new Employee();
+        BeanUtils.copyProperties(employeeDTO, employee);
+        employee.setUpdateTime(LocalDateTime.now());
+        employee.setUpdateUser(BaseContext.getCurrentId());
+        employeeMapper.update(employee);
     }
 
 }

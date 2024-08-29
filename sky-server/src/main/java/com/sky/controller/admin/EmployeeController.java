@@ -91,7 +91,7 @@ public class EmployeeController {
     @ApiOperation("修改员工状态")
     public Result stopOrStart(@PathVariable("status") Integer status, Long id) {
         log.info("修改员工状态：status={}, id={}", status, id);
-        employeeService.stopOrStart(status, id);
+        employeeService.update(status, id);
         return Result.success();
     }
     @GetMapping("/{id}")

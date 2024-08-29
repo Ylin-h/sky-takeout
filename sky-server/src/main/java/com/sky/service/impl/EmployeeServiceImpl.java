@@ -80,12 +80,12 @@ public class  EmployeeServiceImpl implements EmployeeService {
         //设置默认状态
         employee.setStatus(StatusConstant.ENABLE);
         //保存到数据库
-        employee.setCreateTime(LocalDateTime.now());
-        employee.setUpdateTime(LocalDateTime.now());
+//        employee.setCreateTime(LocalDateTime.now());
+//        employee.setUpdateTime(LocalDateTime.now());
         // TODO: 2021/12/20 保存用户信息时，需要保存用户信息的创建人和更新人，暂时默认设置为10
         //获取当前登录用户id
-        employee.setCreateUser(BaseContext.getCurrentId());
-        employee.setUpdateUser(BaseContext.getCurrentId());
+//        employee.setCreateUser(BaseContext.getCurrentId());
+//        employee.setUpdateUser(BaseContext.getCurrentId());
         employeeMapper.save(employee);
     }
 
@@ -99,14 +99,18 @@ public class  EmployeeServiceImpl implements EmployeeService {
     }
 
 //员工停用启用
-    public void stopOrStart(Integer status, Long id) {
+    public void update(Integer status, Long id) {
         //单个赋值
       //  Employee employee = new Employee();
         //employee.setId(id);
         //employee.setStatus(status);
         //使用Bulider模式，设置属性值
        Employee employee = Employee.builder().id(id).status(status).build();
-        employeeMapper.stopOrStart(employee);
+//       employee.setUpdateTime(LocalDateTime.now());
+//        employee.setUpdateUser(BaseContext.getCurrentId());
+
+
+        employeeMapper.update(employee);
     }
 
    //员工删除
@@ -125,8 +129,8 @@ public class  EmployeeServiceImpl implements EmployeeService {
     public void update(EmployeeDTO employeeDTO) {
         Employee employee = new Employee();
         BeanUtils.copyProperties(employeeDTO, employee);
-        employee.setUpdateTime(LocalDateTime.now());
-        employee.setUpdateUser(BaseContext.getCurrentId());
+//        employee.setUpdateTime(LocalDateTime.now());
+//        employee.setUpdateUser(BaseContext.getCurrentId());
         employeeMapper.update(employee);
     }
 

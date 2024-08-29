@@ -12,9 +12,9 @@
             ORDER BY create_time DESC
 
     </select>
-    <update id="stopOrStart">
-        UPDATE employee SET status = #{status} WHERE id = #{id}
-    </update>
+<!--    <update id="stopOrStart">-->
+<!--        UPDATE employee SET status = #{status} WHERE id = #{id}-->
+<!--    </update>-->
     <update id="update" parameterType="com.sky.entity.Employee">
         update employee
         <set>

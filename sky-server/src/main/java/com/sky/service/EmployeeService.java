@@ -31,7 +31,7 @@ public interface EmployeeService {
  * @param id
  * @return
  */
-    void stopOrStart(Integer status, Long id);
+    void update(Integer status, Long id);
 /**
  * 员工删除
  * @param id

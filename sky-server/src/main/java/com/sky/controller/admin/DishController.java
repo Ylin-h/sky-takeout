@@ -9,9 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -27,5 +25,12 @@ public class DishController {
         log.info("分页查询菜品列表：{}", dto);
         PageResult pageResult = dishService.page(dto);
         return Result.success(pageResult);
+    }
+    @PostMapping("/status/{status}")
+    @ApiOperation("修改菜品状态")
+    public Result updateStatus(@PathVariable("status") Integer status, Long id) {
+        log.info("修改菜品状态：{}，id：{}", status, id);
+        dishService.updateStatus(status, id);
+        return Result.success();
     }
 }

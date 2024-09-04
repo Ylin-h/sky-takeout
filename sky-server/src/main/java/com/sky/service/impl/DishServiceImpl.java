@@ -21,4 +21,11 @@ public class DishServiceImpl implements DishService {
         Page<DishVO> page = dishMapper.page(dto);
         return new PageResult(page.getTotal(), page.getResult());
     }
+
+    @Override
+    public void updateStatus(Integer status, Long id) {
+        //更新菜品状态
+        //不想用bulider设置更新时间，用户了，sql太多字段属性-_-
+        dishMapper.updateStatus(status, id);
+    }
 }

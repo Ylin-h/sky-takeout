@@ -7,7 +7,7 @@ sky:
     username: root
     password: root
   alioss:
-    endpoint: oss-cn-beijing.aliyuncs.com
-    access-key-id: your-access-key-id
-    access-key-secret: your-access-key-secret
-    bucket-name: your-bucket-name
+#    endpoint: oss-cn-beijing.aliyuncs.com
+#    access-key-id:
+#    access-key-secret:
+#    bucket-name: sky-takeout-test5

@@ -10,4 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface DishMapper {
 
     Page<DishVO> page(DishPageQueryDTO dto);
+
+
+    Integer countByCategoryId(Long id);
 }

@@ -6,7 +6,7 @@
      SELECT d.*,c.name AS categoryName FROM dish d left outer join category c on d.category_id = c.id
    <where>
     <if test="name!= null" >
-        WHERE d.name LIKE CONCAT('%', #{name}, '%')
+        AND d.name LIKE CONCAT('%', #{name}, '%')
     </if>
     <if test="categoryId!= null" >
         AND d.category_id = #{categoryId}
@@ -19,5 +19,20 @@
     </select>
     <select id="countByCategoryId" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM dish WHERE category_id = #{categoryId}
+    </select>
+    <select id="list" resultType="Dish" parameterType="Dish">
+        select * from dish
+        <where>
+            <if test="name != null">
+                and name like concat('%',#{name},'%')
+            </if>
+            <if test="categoryId != null">
+                and category_id = #{categoryId}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+        order by create_time desc
     </select>
 </mapper>

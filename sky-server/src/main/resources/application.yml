@@ -28,7 +28,11 @@ logging:
         mapper: debug
         service: info
         controller: info
-
+redis:
+  host: ${sky.redis.host}
+  port: ${sky.redis.port}
+  password: ${sky.redis.password}
+  database: ${sky.redis.database}
 sky:
   jwt:
     # 设置jwt签名加密时使用的秘钥
@@ -37,6 +41,12 @@ sky:
     admin-ttl: 7200000
     # 设置前端传递过来的令牌名称
     admin-token-name: token
+
+    usern-secret-key: itheima
+    # 设置jwt过期时间
+    user-ttl: 7200000
+    # 设置前端传递过来的令牌名称
+    user-token-name: authontication
   alioss:
     # 设置阿里云oss的endpoint
     endpoint: ${sky.alioss.endpoint}
@@ -47,3 +57,6 @@ sky:
     # 设置阿里云oss的bucket名称
     bucket-name: ${sky-alioss-bucket-name}
     # 设置阿里云oss的外网访问域名
+  wechat:
+    appid: ${sky.wechat.app-id}
+    secret: ${sky.wechat.app-secret}

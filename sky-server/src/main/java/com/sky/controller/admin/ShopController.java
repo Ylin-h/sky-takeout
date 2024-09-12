@@ -1,5 +1,4 @@
 package com.sky.controller.admin;
-
 import com.sky.result.Result;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -7,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
+
 
 @RestController("adminShopController")//声明控制器，防止与user中的shopcontroller重复
 @RequestMapping("/admin/shop")

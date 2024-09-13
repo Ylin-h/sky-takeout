@@ -5,6 +5,7 @@ import com.sky.dto.DishPageQueryDTO;
 import com.sky.entity.Dish;
 import com.sky.vo.DishVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
@@ -21,4 +22,6 @@ public interface DishMapper {
     void updateStatus(Integer status, Long id);
 
     List<Dish> list(Dish dish);
+   @Select("SELECT * FROM dish WHERE id = #{dishId}")
+    Dish getById(Long dishId);
 }

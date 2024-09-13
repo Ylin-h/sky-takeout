@@ -12,8 +12,8 @@ sky:
     access-key-secret:
     bucket-name: sky-takeout-test5
   wechat:
-    appid: wxd34c262e9308b7be
-    secret: 3dc714ffcb77e0072ed4e666a41b22de
+    appid: 
+    secret: 
   redis:
     host: localhost
     port: 6379

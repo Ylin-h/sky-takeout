@@ -39,7 +39,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         }
     //如果不在购物车中，则添加到购物车中
         else{
-            if(shoppingCartDTO.getDishId()!= null|| shoppingCartDTO.getDishId()!= 0)
+            if(shoppingCartDTO.getDishId()!= null)
             {
                 Dish dish= dishMapper.getById(shoppingCartDTO.getDishId());
                 cart.setName(dish.getName());

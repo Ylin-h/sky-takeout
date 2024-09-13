@@ -10,6 +10,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +22,9 @@ import java.util.List;
 public class DishController {
     @Autowired
     private DishService dishService;
+    @Autowired
+    private RedisTemplate redisTemplate;
+    // 新增菜品
     // 查询菜品列表
     @GetMapping("/page")
     @ApiOperation(value = "分页查询菜品列表", notes = "分页查询菜品列表")
@@ -34,6 +38,7 @@ public class DishController {
     public Result updateStatus(@PathVariable("status") Integer status, Long id) {
         log.info("修改菜品状态：{}，id：{}", status, id);
         dishService.updateStatus(status, id);
+        redisTemplate.delete("dish_*");// 清除缓存
         return Result.success();
     }
     /**
@@ -47,4 +52,5 @@ public class DishController {
         List<Dish> list = dishService.list(categoryId);
         return Result.success(list);
     }
+
 }

@@ -15,6 +15,8 @@ import java.util.Map;
 
 @Mapper
 public interface OrderMapper {
+    Double sumByMap(Map map);
+
     /**
      * 插入订单数据
      * @param order

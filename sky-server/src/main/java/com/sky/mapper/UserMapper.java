@@ -26,6 +26,8 @@ public interface UserMapper {
     @Select("select * from user where id = #{id}")
     User getById(Long userId);
 
+    Integer countDistinctByMap(Map map);
+
     /**
      * 根据动态条件统计用户数量
      * @param map

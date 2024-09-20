@@ -2,8 +2,10 @@ package com.sky.service.impl;
 
 import com.sky.entity.Orders;
 import com.sky.mapper.OrderMapper;
+import com.sky.mapper.UserMapper;
 import com.sky.service.ReportService;
 import com.sky.vo.TurnoverReportVO;
+import com.sky.vo.UserReportVO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,8 @@ import java.util.Map;
 public class ReportServiceImpl implements ReportService {
     @Autowired
     private OrderMapper orderMapper;
+    @Autowired
+    private UserMapper userMapper;
 
     /**
      * 统计指定时间区间内的营业额数据
@@ -62,6 +66,54 @@ public class ReportServiceImpl implements ReportService {
                 .builder()
                 .dateList(StringUtils.join(dateList, ","))
                 .turnoverList(StringUtils.join(turnoverList, ","))
+                .build();
+    }
+
+    /**
+     * 统计指定时间区间内的用户数据
+     *
+     * @param begin
+     * @param end
+     * @return
+     */
+    public UserReportVO getUserReport(LocalDate begin, LocalDate end) {
+        List<LocalDate> dateList = new ArrayList<>();
+
+        dateList.add(begin);
+
+        while (!begin.equals(end)) {
+            //日期计算，计算指定日期的后一天对应的日期
+            begin = begin.plusDays(1);
+            dateList.add(begin);
+        }
+        List<Integer> newUserList = new ArrayList<>();//新增用户
+        List<Integer> totalUserList = new ArrayList<>();//总用户
+
+        for (LocalDate date : dateList) {
+            //查询date日期对应的新增用户数据
+            LocalDateTime beginTime = LocalDateTime.of(date, LocalTime.MIN);
+            LocalDateTime endTime = LocalDateTime.of(date, LocalTime.MAX);
+
+            // select count(distinct user_id) from orders where order_time > beginTime and order_time < endTime
+            Map map = new HashMap();
+
+            map.put("end", endTime);
+
+            Integer totalUser = userMapper.countDistinctByMap(map);
+            totalUser = totalUser == null ? 0 : totalUser;
+            totalUserList.add(totalUser);
+            map.put("begin", beginTime);
+            Integer newUser = userMapper.countDistinctByMap(map);
+            newUser = newUser == null ? 0 : newUser;
+            newUserList.add(newUser);
+
+        }
+        //封装返回结果
+        return UserReportVO
+                .builder()
+                .dateList(StringUtils.join(dateList, ","))
+                .newUserList(StringUtils.join(newUserList, ","))
+                .totalUserList(StringUtils.join(totalUserList, ","))
                 .build();
     }
 

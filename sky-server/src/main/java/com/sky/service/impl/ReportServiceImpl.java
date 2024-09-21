@@ -1,10 +1,12 @@
 package com.sky.service.impl;
 
+import com.sky.dto.GoodsSalesDTO;
 import com.sky.entity.Orders;
 import com.sky.mapper.OrderMapper;
 import com.sky.mapper.UserMapper;
 import com.sky.service.ReportService;
 import com.sky.vo.OrderReportVO;
+import com.sky.vo.SalesTop10ReportVO;
 import com.sky.vo.TurnoverReportVO;
 import com.sky.vo.UserReportVO;
 import org.apache.commons.lang3.StringUtils;
@@ -19,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ReportServiceImpl implements ReportService {
@@ -141,7 +144,7 @@ public class ReportServiceImpl implements ReportService {
 
         for (LocalDate date : dateList) {
             //查询date日期对应的订单数据
-            LocalDateTime beginTime = LocalDateTime.of(date, LocalTime.MIN);
+             LocalDateTime beginTime = LocalDateTime.of(date, LocalTime.MIN);
             LocalDateTime endTime = LocalDateTime.of(date, LocalTime.MAX);
 //            dateCount(beginTime, endTime, null);
             totalOrderList.add(dateCount(beginTime, endTime, null));
@@ -162,7 +165,28 @@ public class ReportServiceImpl implements ReportService {
                 .build();
     }
 
-        private Integer dateCount (LocalDateTime beginTime, LocalDateTime endTime, Integer status)
+    /**
+     * 统计指定时间区间内的销售排行榜数据
+     *
+     * @param begin
+     * @param end
+     * @return
+     */
+    public SalesTop10ReportVO gettop10Report(LocalDate begin, LocalDate end) {
+        LocalDateTime beginTime = LocalDateTime.of(begin, LocalTime.MIN);
+        LocalDateTime endTime = LocalDateTime.of(end, LocalTime.MAX);
+       List<GoodsSalesDTO> goodsSalesDTOList = orderMapper.getTop10ByMap(beginTime, endTime);
+        List<String> names = goodsSalesDTOList.stream().map(GoodsSalesDTO::getName).collect(Collectors.toList());
+        List<Integer> numbers = goodsSalesDTOList.stream().map(GoodsSalesDTO::getNumber).collect(Collectors.toList());
+
+
+        return SalesTop10ReportVO.builder()
+                .nameList(StringUtils.join(names, ","))
+                .numberList(StringUtils.join(numbers, ","))
+                .build();
+    }
+
+    private Integer dateCount (LocalDateTime beginTime, LocalDateTime endTime, Integer status)
         {
 
             Map map = new HashMap();

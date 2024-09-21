@@ -34,4 +34,10 @@ public interface UserMapper {
      * @return
      */
 //    Integer countByMap(Map map);
+    /**
+     * 根据条件统计菜品数量
+     * @param map
+     * @return
+     */
+    Integer countByMap1(Map map);
 }
